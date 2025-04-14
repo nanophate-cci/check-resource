@@ -19,11 +19,6 @@ commands:
             echo "Date and Time: $(date)"
             echo "Uptime: $(uptime -p)"
             echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}') available"
-      - run:
-          name: Output System Information Using neofetch
-          command: |
-            sudo apt install neofetch
-            neofetch
 
 jobs:
   print_system_info_docker:
@@ -36,7 +31,11 @@ jobs:
     machine: true  # This tells CircleCI to use the Machine executor
     steps:
       - output_system_info  # Reusing the command
-
+      - run:
+          name: Output System Information Using neofetch
+          command: |
+            sudo apt install neofetch
+            neofetch
 workflows:
   version: 2
   build:
