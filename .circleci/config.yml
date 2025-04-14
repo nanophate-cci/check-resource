@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  print_system_info:
+    docker:
+      - image: cimg/linux:current  # Using a CircleCI Linux image
+    steps:
+      - run:
+          name: Output Full System Information
+          command: |
+            echo "=== System Information ==="
+            echo "Operating System: $(uname -s)"
+            echo "Kernel Version: $(uname -r)"
+            echo "Architecture: $(uname -m)"
+            echo "Host Name: $(hostname)"
+            echo "CPU Model: $(lscpu | grep 'Model name' | awk -F ':' '{print $2}' | xargs)"
+            echo "CPU Cores: $(lscpu | grep '^CPU\(s\):' | awk '{print $2}')"
+            echo "Total RAM: $(free -h | grep '^Mem:' | awk '{print $2}')"
+            echo "Current User: $(whoami)"
+            echo "Date and Time: $(date)"
+            echo "Uptime: $(uptime -p)"
+            echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}') available"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - print_system_info
