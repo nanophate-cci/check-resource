@@ -18,7 +18,7 @@ commands:
             echo "Current User: $(whoami)"
             echo "Date and Time: $(date)"
             echo "Uptime: $(uptime -p)"
-            echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}')
+            echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}') available"
 
 jobs:
   print_system_info_docker:
