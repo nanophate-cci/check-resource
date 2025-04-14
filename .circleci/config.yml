@@ -1,9 +1,8 @@
 version: 2.1
 
-jobs:
-  print_system_info:
-    docker:
-      - image: cimg/base:current
+commands:
+  output_system_info:
+    description: "Outputs system information"
     steps:
       - run:
           name: Output Full System Information
@@ -19,10 +18,23 @@ jobs:
             echo "Current User: $(whoami)"
             echo "Date and Time: $(date)"
             echo "Uptime: $(uptime -p)"
-            echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}') available"
+            echo "Disk Usage: $(df -h / | grep '/' | awk '{print $3}') used, $(df -h / | grep '/' | awk '{print $4}')
+
+jobs:
+  print_system_info_docker:
+    docker:
+      - image: cimg/base:current  # Using a CircleCI Linux image
+    steps:
+      - output_system_info  # Reusing the command
+
+  print_system_info_machine:
+    machine: true  # This tells CircleCI to use the Machine executor
+    steps:
+      - output_system_info  # Reusing the command
 
 workflows:
   version: 2
   build:
     jobs:
-      - print_system_info
+      - print_system_info_docker
+      - print_system_info_machine
