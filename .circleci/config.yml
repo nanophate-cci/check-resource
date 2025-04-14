@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   print_system_info:
     docker:
-      - image: cimg/linux:current  # Using a CircleCI Linux image
+      - image: cimg/base:current
     steps:
       - run:
           name: Output Full System Information
